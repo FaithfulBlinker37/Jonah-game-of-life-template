@@ -8,6 +8,7 @@ public class GameOfLife implements Board {
     public GameOfLife(int x, int y)
     {
         // Construct a 2d array of the given x and y size.
+        board = new int[x][y];
     }
 
     // Set values on the board
@@ -27,6 +28,20 @@ public class GameOfLife implements Board {
     // Step the simulation forward one turn.
     public void step()
     {
+        int[][] newBoard = new int[board.length][board[0].length];
+
+        for (int x = 0; x < board.length; x++) {
+            for (int y = 0; y < board[0].length; y++) {
+                int neighbors = countNeighbors(x, y);
+
+                if (board[x][y] == 1) {
+                    newBoard[x][y] = (neighbors == 2 || neighbors == 3) ? 1 : 0;
+                } else {
+                    newBoard[x][y] = (neighbors == 3) ? 1 : 0;
+                }
+            }
+        }
+        board = newBoard;
         print();
         // Update the game board, store a 1 if the cell is alive and a 0 otherwise.
     }
